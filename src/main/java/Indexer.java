@@ -1,5 +1,6 @@
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import org.apache.lucene.analysis.CharArraySet;
@@ -20,38 +21,26 @@ import org.json.simple.parser.ParseException;
 /**
  * This class is for the Lucene indexer, which takes a list of .data files from our
  * JSoup crawler and indexes the websites found by the crawler by its text and title as
- * the tokens.
-<<<<<<< HEAD
+ * the tokens. Standard Analyzer is used as the only analyzer for this indexer as a
+ * design choice. Common stop words were added for the analyzer filter.
  *
  * References for creating this indexer:
  * https://lucene.apache.org/core/8_4_1/core/index.html
  * http://web.cs.ucla.edu/classes/winter15/cs144/projects/lucene/index.html
  * https://www.tutorialspoint.com/lucene/lucene_indexing_process.htm
  *
-=======
->>>>>>> 32c2c9c... Created and ran indexer to index Jsoup files
  * @author Lisa Chen, Nikhil Gowda, Poorvaja Sundar, Edward Zabrensky, and Jason Zellmer
- * @version 1.0
+ * @version 1.1
  * @since Feb 05, 2020
  */
 public class Indexer {
     private IndexWriter writer;
-    private final static String INDEX_DIR = "Index_Files/";
-    private final static File DATA_DIR = new File("Data_Files/");
-    private final static File[] DATA_FILE_LIST = DATA_DIR.listFiles();
     private final String[] JSON_KEYS = {"text", "title", "url"};
     private final String[] STOP_WORDS = {"a", "an", "and", "are", "as", "at", "be", "but",
             "by", "for", "if", "in", "into", "is", "it", "no", "not", "of", "on", "or",
             "such", "that", "the", "their", "then", "there", "these", "they", "this",
             "to", "was", "will", "with"};
-
-    //for testing purposes
-    public static void main(String[] args) throws IOException, ParseException {
-        //run the indexer to create index files
-        Indexer indexer = new Indexer(DATA_FILE_LIST, INDEX_DIR);
-        System.out.println("Indexing complete");
-    }
-
+    private ArrayList<Long> docTimes;
     /**
      * Constructs the indexer using the list of files to index and the path for the
      * resulting Lucene index files to be saved.
@@ -62,7 +51,8 @@ public class Indexer {
      */
     public Indexer(File[] fileList, String indexDirectoryPath) throws ParseException,
             IOException {
-        Directory indexDirectory = FSDirectory.open(Paths.get(INDEX_DIR));
+        docTimes = new ArrayList<Long>();
+        Directory indexDirectory = FSDirectory.open(Paths.get(indexDirectoryPath));
         try {
             writer = new IndexWriter(indexDirectory, new IndexWriterConfig(
                     new StandardAnalyzer(initializeStopWords())));
@@ -116,15 +106,19 @@ public class Indexer {
      */
     private void indexFiles(File[] fileList) throws ParseException, FileNotFoundException {
         JSONParser jsonParser = new JSONParser();
+        final long startTime = System.currentTimeMillis();
 
         for (int i = 0; i < fileList.length; i++) {
-            System.out.println("Indexing File " + i);
+//            System.out.println("Indexing File " + i);
             Scanner scanner = new Scanner(fileList[i]);
             while (scanner.hasNext()) {
                 Document doc = new Document();
                 String jsonString = scanner.nextLine();
                 JSONObject obj = (JSONObject) jsonParser.parse(jsonString);
                 indexWebsite(createWebsiteDocument((obj)));
+                //perform difference to remove time used to initialize program
+                long endTime = System.currentTimeMillis() - startTime;
+                docTimes.add(endTime);
             }
         }
     }
@@ -154,5 +148,11 @@ public class Indexer {
     public void closeIndexWriter() throws CorruptIndexException, IOException {
         writer.close();
     }
+
+    /**
+     * Retrieves the list of times for indexing each website document in the files.
+     * @return List of end times for each document
+     */
+    public ArrayList<Long> getDocTimes() { return docTimes; }
 }
 

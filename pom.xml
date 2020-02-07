@@ -32,7 +32,14 @@
             <artifactId>lucene-core</artifactId>
             <version>8.4.1</version>
         </dependency>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.lucene/lucene-queryparser &ndash;&gt;-->
+        <!-- https://mvnrepository.com/artifact/jfree/jfreechart -->
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.13</version>
+        </dependency>
+
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.lucene/lucene-queryparser &ndash;&gt;-->
 <!--        <dependency>-->
 <!--            <groupId>org.apache.lucene</groupId>-->
 <!--            <artifactId>lucene-queryparser</artifactId>-->
