@@ -112,16 +112,15 @@ public class Indexer {
         int docCount = 0;
 
         for (int i = 0; i < fileList.length; i++) {
-            Scanner scanner = new Scanner(fileList[i]);
+            Scanner scanner = new Scanner(fileList[i], "utf-8");
             while (scanner.hasNextLine()) {
                 StringBuilder jsonString = new StringBuilder();
                 jsonString.append(scanner.nextLine());
-                System.out.println(jsonString.toString()); //TODO fixing this issue
                 JSONObject obj = (JSONObject) jsonParser.parse(jsonString.toString());
                 indexWebsite(createWebsiteDocument((obj)));
                 docCount++;
-                //calculate difference to remove time used to initialize program
             }
+            //calculate difference to remove time used to initialize program
             long endTime = System.currentTimeMillis() - startTime;
             Long[] docTime = {Long.valueOf(docCount),endTime};
             docTimes.add(docTime);
