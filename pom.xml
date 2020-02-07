@@ -19,25 +19,26 @@
             </plugin>
         </plugins>
     </build>
+
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
-        <dependency>
-            <groupId>com.googlecode.json-simple</groupId>
-            <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>8.4.1</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/jfree/jfreechart -->
-        <dependency>
-            <groupId>jfree</groupId>
-            <artifactId>jfreechart</artifactId>
-            <version>1.0.13</version>
-        </dependency>
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.googlecode.json-simple</groupId>-->
+<!--            <artifactId>json-simple</artifactId>-->
+<!--            <version>1.1.1</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.lucene/lucene-core &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.lucene</groupId>-->
+<!--            <artifactId>lucene-core</artifactId>-->
+<!--            <version>8.4.1</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/jfree/jfreechart &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>jfree</groupId>-->
+<!--            <artifactId>jfreechart</artifactId>-->
+<!--            <version>1.0.13</version>-->
+<!--        </dependency>-->
 
         <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.lucene/lucene-queryparser &ndash;&gt;-->
 <!--        <dependency>-->
