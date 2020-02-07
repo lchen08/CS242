@@ -20,7 +20,7 @@ public class IndexBuilder {
     private static final File DEFAULT_DATA_DIR = new File(CURRENT_DIR +
             "/Data_Files/");
     private static final File[] DEFAULT_DATA_FILE_LIST = DEFAULT_DATA_DIR.listFiles();
-    private static final String INDEX_DIR = "Index_Files2/";
+    private static final String INDEX_DIR = "/Index_Files/";
     private static final String APP_TITLE = "CS242 - Lucene Runtime Graph";
     private static final String GRAPH_TITLE = "Document Completion Times";
 
@@ -107,7 +107,8 @@ public class IndexBuilder {
 
         System.out.println("Starting Index. Please wait.");
         Indexer indexer = new Indexer(fileList, INDEX_DIR);
-        System.out.println("Indexing complete.");
+        System.out.println("Indexing complete. Index files are saved in the directory: "
+                + CURRENT_DIR + DEFAULT_DATA_DIR);
         return indexer.getDocTimes();
     }
 
