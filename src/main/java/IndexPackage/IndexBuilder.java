@@ -6,6 +6,7 @@ import org.json.simple.parser.ParseException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -14,8 +15,8 @@ import java.util.ArrayList;
  * files. The graph is from JFreeChart.
  *
  *  @author Lisa Chen, Nikhil Gowda, Poorvaja Sundar, Edward Zabrensky, Jason Zellmer
- *  @version 1.0
- *  @since Feb 06, 2020
+ *  @version 1.1
+ *  @since Mar 03, 2020
  */
 public class IndexBuilder {
     private static final String CURRENT_DIR = System.getProperty("user.dir");
@@ -25,6 +26,8 @@ public class IndexBuilder {
     private static final String INDEX_DIR = "Index_Files";
     private static final String APP_TITLE = "CS242 - Lucene Runtime Graph";
     private static final String GRAPH_TITLE = "Document Completion Times";
+    private static final String LUCENE_TIME_FILENAME = "lucenetimes.txt";
+    private static final String LINE_TITLE = "Lucene Indexer";
 
     /**
      * Runs the program with either no given inputs (default input directory) or the
@@ -34,7 +37,7 @@ public class IndexBuilder {
      * @throws ParseException
      */
     public static void main(String[] args) throws IOException, ParseException {
-        ArrayList<Long[]> indexingRuntimes;
+        ArrayList<Long> indexingRuntimes;
         if (args.length > 1)
             throw new RuntimeException("Only accepts at most one input for the directory "
                     + "of the data files for indexing. The indexer only uses standard " +
@@ -58,17 +61,20 @@ public class IndexBuilder {
             indexingRuntimes = runIndexer(dataDir.listFiles());
         }
         if (!(indexingRuntimes == null))
-            createIndexerRuntimeGraph(indexingRuntimes);
+            saveDocTimes(indexingRuntimes);
+        createIndexerRuntimeGraph();
     }
 
     /**
      * Creates a graph displaying the completion times for indexing all the documents
-     * with a given input list of runtimes.
-     * @param indexingRuntimeList List of completion times for each document indexed
+     * with a given input list of runtimes. The file to create the graph was already
+     * generated from a different part of the code.
      */
-    private static void createIndexerRuntimeGraph(ArrayList<Long[]> indexingRuntimeList) {
+    private static void createIndexerRuntimeGraph()
+            throws FileNotFoundException {
+
         IndexTimeGrapher chart = new IndexTimeGrapher(APP_TITLE, GRAPH_TITLE,
-                indexingRuntimeList);
+                new File(LUCENE_TIME_FILENAME), LINE_TITLE);
         chart.pack( );
         RefineryUtilities.centerFrameOnScreen( chart );
         chart.setVisible( true );
@@ -88,7 +94,7 @@ public class IndexBuilder {
      * @throws IOException
      * @throws ParseException
      */
-    public static ArrayList<Long[]> runIndexer() throws IOException, ParseException {
+    public static ArrayList<Long> runIndexer() throws IOException, ParseException {
         return runIndexer(DEFAULT_DATA_FILE_LIST);
     }
 
@@ -100,7 +106,7 @@ public class IndexBuilder {
      * @throws IOException
      * @throws ParseException
      */
-    public static ArrayList<Long[]> runIndexer(File[] fileList) throws IOException,
+    public static ArrayList<Long> runIndexer(File[] fileList) throws IOException,
             ParseException {
         if (isEmptyDirectory(fileList)) {
             System.out.println("Data folder is empty. No files were indexed");
@@ -112,6 +118,14 @@ public class IndexBuilder {
         System.out.println("Indexing complete. Index files are saved in the directory: "
                 + CURRENT_DIR + "\\" + INDEX_DIR);
         return indexer.getDocTimes();
+    }
+
+    public static void saveDocTimes(ArrayList<Long> timeList) throws FileNotFoundException {
+        PrintWriter writer = new PrintWriter(new File(LUCENE_TIME_FILENAME));
+        for (Long time : timeList) {
+            writer.println(time);
+        }
+        writer.close();
     }
 
     /**

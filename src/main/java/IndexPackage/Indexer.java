@@ -1,10 +1,5 @@
 package IndexPackage;
 
-import java.io.*;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -20,6 +15,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * This class is for the Lucene indexer, which takes a list of .data files from our
  * JSoup crawler and indexes the websites found by the crawler by its text and title as
@@ -32,8 +34,8 @@ import org.json.simple.parser.ParseException;
  * https://www.tutorialspoint.com/lucene/lucene_indexing_process.htm
  *
  * @author Lisa Chen, Nikhil Gowda, Poorvaja Sundar, Edward Zabrensky, and Jason Zellmer
- * @version 1.0
- * @since Feb 05, 2020
+ * @version 1.1
+ * @since Mar 03, 2020
  */
 public class Indexer {
     private IndexWriter writer;
@@ -42,7 +44,7 @@ public class Indexer {
             "by", "for", "if", "in", "into", "is", "it", "no", "not", "of", "on", "or",
             "such", "that", "the", "their", "then", "there", "these", "they", "this",
             "to", "was", "will", "with"};
-    private ArrayList<Long[]> docTimes;
+    private ArrayList<Long> docTimes;
     /**
      * Constructs the indexer using the list of files to index and the path for the
      * resulting Lucene index files to be saved.
@@ -51,8 +53,7 @@ public class Indexer {
      * @throws ParseException
      * @throws IOException
      */
-    public Indexer(File[] fileList, String indexDirectoryPath) throws ParseException,
-            IOException {
+    public Indexer(File[] fileList, String indexDirectoryPath) throws IOException {
         docTimes = new ArrayList<>();
         Directory indexDirectory = FSDirectory.open(Paths.get(indexDirectoryPath));
         try {
@@ -109,7 +110,6 @@ public class Indexer {
     private void indexFiles(File[] fileList) throws ParseException, FileNotFoundException {
         JSONParser jsonParser = new JSONParser();
         final long startTime = System.currentTimeMillis();
-        int docCount = 0;
 
         for (int i = 0; i < fileList.length; i++) {
             Scanner scanner = new Scanner(fileList[i], "utf-8");
@@ -118,12 +118,9 @@ public class Indexer {
                 jsonString.append(scanner.nextLine());
                 JSONObject obj = (JSONObject) jsonParser.parse(jsonString.toString());
                 indexWebsite(createWebsiteDocument((obj)));
-                docCount++;
+                long endTime = System.currentTimeMillis() - startTime;
+                docTimes.add(endTime);
             }
-            //calculate difference to remove time used to initialize program
-            long endTime = System.currentTimeMillis() - startTime;
-            Long[] docTime = {Long.valueOf(docCount),endTime};
-            docTimes.add(docTime);
         }
     }
 
@@ -136,7 +133,7 @@ public class Indexer {
     private Document createWebsiteDocument(JSONObject obj) {
         Document doc = new Document();
         doc.add(new TextField(JSON_KEYS[0], (String) obj.get(JSON_KEYS[0]),
-                Field.Store.NO)); //text
+                Field.Store.YES)); //text
         doc.add(new TextField(JSON_KEYS[1], (String) obj.get(JSON_KEYS[1]),
                 Field.Store.YES)); //title
         doc.add(new StringField(JSON_KEYS[2], (String) obj.get(JSON_KEYS[2]),
@@ -157,6 +154,6 @@ public class Indexer {
      * Retrieves the list of times for indexing each website document in the files.
      * @return List of end times for each document
      */
-    public ArrayList<Long[]> getDocTimes() { return docTimes; }
+    public ArrayList<Long> getDocTimes() { return docTimes; }
 }
 
