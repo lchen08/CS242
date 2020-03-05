@@ -1,5 +1,6 @@
 package IndexPackage;
 
+import GraphPackage.IndexTimeGrapher;
 import org.jfree.ui.RefineryUtilities;
 import org.json.simple.parser.ParseException;
 

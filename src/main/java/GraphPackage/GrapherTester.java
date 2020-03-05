@@ -1,4 +1,4 @@
-package IndexPackage;
+package GraphPackage;
 
 import org.jfree.ui.RefineryUtilities;
 

@@ -1,4 +1,4 @@
-package IndexPackage;
+package QueryPackage;
 
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.TokenStream;
@@ -139,6 +139,12 @@ public class LuceneQuerySearcher {
                             JSON_KEYS[key], analyzer);
                     text = highlighter.getBestFragments(stream, text,
                             MAX_NUM_FRAGMENTS, FRAGMENT_SEPARATOR);
+//                    String[] fragments = highlighter.getBestFragments(stream, text,
+//                            MAX_NUM_FRAGMENTS);
+//                    text = "";
+//                    for (String fragment : fragments) {
+//                        text += fragment;
+//                    }
                 }
 //                System.out.println(text);
                 result.put(JSON_KEYS[key], text);
@@ -190,7 +196,7 @@ public class LuceneQuerySearcher {
         JSONArray results = qs.retrieveTopHits(query, numHits);
         int numResults = results.size();
         for (int i = 0; i < numResults; i++) {
-            System.out.println(results.get(i) + "\n");
+            System.out.println(results.get(i).toString() + "\n");
         }
     }
 }
