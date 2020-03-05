@@ -20,12 +20,12 @@ public class GrapherTester {
     private static final String[] LINE_TITLES = {"Lucene Indexer", "Hadoop Indexer"};
 
     public static void main(String[] args) throws FileNotFoundException {
-//        IndexTimeGrapher chart = new IndexTimeGrapher(APP_TITLE, GRAPH_TITLE,
-//                new File(LUCENE_TIME_FILENAME), LINE_TITLES[0]);
-        createDummy();
         IndexTimeGrapher chart = new IndexTimeGrapher(APP_TITLE, GRAPH_TITLE,
-                new File(LUCENE_TIME_FILENAME), new File("dummy.txt"),
-                LINE_TITLES);
+                new File(LUCENE_TIME_FILENAME), LINE_TITLES[0]);
+//        createDummy();
+//        IndexTimeGrapher chart = new IndexTimeGrapher(APP_TITLE, GRAPH_TITLE,
+//                new File(LUCENE_TIME_FILENAME), new File("dummy.txt"),
+//                LINE_TITLES);
         chart.pack( );
         RefineryUtilities.centerFrameOnScreen( chart );
         chart.setVisible( true );

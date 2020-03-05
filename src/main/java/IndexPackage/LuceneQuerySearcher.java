@@ -184,8 +184,8 @@ public class LuceneQuerySearcher {
     public static void main(String[] args) throws IOException, ParseException,
             InvalidTokenOffsetsException {
         LuceneQuerySearcher qs = new LuceneQuerySearcher();
-        String query = "UC Riverside machine learning";
-        int numHits = 5;
+        String query = "university Riverside machine learning";
+        int numHits = 10;
 
         JSONArray results = qs.retrieveTopHits(query, numHits);
         int numResults = results.size();

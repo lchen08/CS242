@@ -118,7 +118,7 @@ public class IndexTimeGrapher extends ApplicationFrame {
                 X_AXIS,Y_AXIS,
                 createDataset(docTimesLists, lineTitles),
                 PlotOrientation.VERTICAL,
-                false,true,false);
+                true,true,false);
 
         //customize domain axis
         XYPlot xyPlot = (XYPlot) lineChart.getPlot();
