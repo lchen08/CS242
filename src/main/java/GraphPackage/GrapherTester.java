@@ -38,9 +38,9 @@ public class GrapherTester {
                 2, 2, 2, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 15, 20};
         int firstNum = 100;
         PrintWriter writer = new PrintWriter("dummy.txt");
-        for (int line = 0; line < 323270; line++) {
+        for (int line = 0; line < 215730; line++) {
             writer.println(firstNum);
-            if (line < 150000 || line > 250000) {
+            if (line < 100000 || line > 200000) {
                 int increment = increments[rn.nextInt(increments.length)];
                 firstNum = firstNum + increment;
             }
