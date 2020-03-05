@@ -24,6 +24,9 @@ The following packages and were used directly or by extension are found in the l
 - Hamcrest Core 1.1
 - Lucene QueryParser 8.4.1
 - Lucene Highlighter 8.4.1
+- Lucene Memory 8.4.1
+- Lucene Queries 8.4.1
+- Lucene Sandbox 8.4.1
 
 ## Deployment
 
