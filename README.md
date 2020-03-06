@@ -16,12 +16,16 @@ A dataset of ~2GB from the listOfUniversities.txt seed can be found here: https:
 
 ### Libraries
 The following packages and were used directly or by extension are found in the libraries folder:
+General Use
+- JSON-simple 1.1.1
+Indexing
 - Lucene Core 8.4.1
+- JUnit 4.10
+- Hamcrest Core 1.1
+Graphing Runtimes
 - JFreeChart 1.0.13
 - JCommon 1.0.16
-- JUnit 4.10
-- JSON-simple 1.1.1
-- Hamcrest Core 1.1
+Querying
 - Lucene QueryParser 8.4.1
 - Lucene Highlighter 8.4.1
 - Lucene Memory 8.4.1
