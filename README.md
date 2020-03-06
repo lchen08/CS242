@@ -15,7 +15,7 @@ A dataset of ~2GB from the listOfUniversities.txt seed can be found here: https:
 - QuerySearcher: The program outputs a JSON array with all the results best matching the query as JSONObjects with snippets of the body, urls, and titles of the webpages. 
 
 ### Libraries
-The following packages and were used directly or by extension are found in the libraries folder:
+The following packages were used directly or by extension are found in the libraries folder:
 General Use
 - JSON-simple 1.1.1
 Indexing
@@ -34,7 +34,7 @@ Querying
 
 ## Deployment
 
-To run the indexer, simply download the whole project. If using the default setup, simply place the .data files in the DATA_FILES folder and run indexbuilder.bat found in the main folder. A web0.data file is already provided for testing.
+To run the indexer, simply download the whole project (A web0.data file is already provided for testing). If using the default setup, simply place the .data files in the Data_Files folder and run indexbuilder.bat found in the main folder. 
 
 If the user wishes to designate a custom directory, the .bat file can be edited to change the line 
 `java IndexPackage.IndexBuilder` to `java IndexPackage.IndexBuilder <relative or absolute path of your custom directory>`.
