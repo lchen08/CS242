@@ -150,7 +150,7 @@ public class LuceneQuerySearcher {
                 result.put(JSON_KEYS[key], text);
             }
             result.put("score", hits[hit].score);
-            results.add(result.toString());
+            results.add(result);
         }
         return results;
     }
@@ -197,7 +197,9 @@ public class LuceneQuerySearcher {
         JSONArray results = qs.retrieveTopHits(query, numHits);
         int numResults = results.size();
         for (int i = 0; i < numResults; i++) {
-            System.out.println(results.get(i) + "\n");
+            //System.out.println(results.get(i) + "\n");
+            JSONObject test = (JSONObject) results.get(i);
+           System.out.println(test.get("url"));
         }
     }
 }
