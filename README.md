@@ -20,7 +20,7 @@ The following packages were used directly or by extension are found in the libra
 General Use
 - JSON-simple 1.1.1
 
-Indexing
+Indexing (and some Querying implementation)
 - Lucene Core 8.4.1
 - JUnit 4.10
 - Hamcrest Core 1.1
