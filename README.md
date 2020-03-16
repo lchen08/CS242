@@ -43,4 +43,5 @@ To run the indexer, simply download the whole project (A web0.data file is alrea
 If the user wishes to designate a custom directory, the .bat file can be edited to change the line 
 `java IndexPackage.IndexBuilder` to `java IndexPackage.IndexBuilder <relative or absolute path of your custom directory>`.
 
+For the query search part of Lucene, a zip file was added separately per the course's requirements: CS242_Lucene Query_Deployment_File.zip. In it, a READ_ME.txt is provided for deployment instructions. 
 
