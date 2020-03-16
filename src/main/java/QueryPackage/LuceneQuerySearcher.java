@@ -20,6 +20,8 @@ import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /**
  * This class is for searching the Lucene index files for a given query.
@@ -105,6 +107,7 @@ public class LuceneQuerySearcher {
      * @throws IOException
      * @throws ParseException
      */
+    @SuppressWarnings({"deprecation", "unchecked"})
     public JSONArray retrieveTopHits(String query, int numHits) throws IOException,
             ParseException, InvalidTokenOffsetsException {
         final int FRAGMENT_LENGTH = getFragmentLength(query);
@@ -139,12 +142,6 @@ public class LuceneQuerySearcher {
                             JSON_KEYS[key], analyzer);
                     text = highlighter.getBestFragments(stream, text,
                             MAX_NUM_FRAGMENTS, FRAGMENT_SEPARATOR);
-//                    String[] fragments = highlighter.getBestFragments(stream, text,
-//                            MAX_NUM_FRAGMENTS);
-//                    text = "";
-//                    for (String fragment : fragments) {
-//                        text += fragment;
-//                    }
                 }
 //                System.out.println(text);
                 result.put(JSON_KEYS[key], text);
@@ -190,16 +187,80 @@ public class LuceneQuerySearcher {
     public static void main(String[] args) throws IOException, ParseException,
             InvalidTokenOffsetsException {
         LuceneQuerySearcher qs = new LuceneQuerySearcher();
-//        String query = "UC Riverside information retrieval";
-        String query = "university Riverside machine learning";
-        int numHits = 10;
+        int numHits = 0;
+        String query = "";
+        int argsLength = args.length;
 
-        JSONArray results = qs.retrieveTopHits(query, numHits);
-        int numResults = results.size();
-        for (int i = 0; i < numResults; i++) {
-            //System.out.println(results.get(i) + "\n");
-            JSONObject test = (JSONObject) results.get(i);
-           System.out.println(test.get("url"));
+        //get input from command line: format required [numHits] [query string]
+        for (int i = 0; i < argsLength; i++) {
+            if (i==0) {
+                try {
+                    numHits = Integer.parseInt(args[i]);
+                }
+                catch(NumberFormatException e) {
+                    System.out.println("The first input should be the " +
+                            "number hits to display for the query. Please try again.\n");
+                    i = argsLength; //end loop early
+                    numHits = retrieveNumHits();
+                    query = retrieveQuery();
+
+                }
+            }
+            else
+                query += args[i] + " ";
         }
+
+        if(argsLength == 0) {
+            numHits = retrieveNumHits();
+            query = retrieveQuery();
+        }
+
+        //return empty array for bad input
+        if (numHits <= 0)
+            System.out.println("No results since requested " + numHits + " results.");
+        else {
+            JSONArray results = qs.retrieveTopHits(query, numHits);
+            int numResults = results.size();
+
+            //retrieve the JSON outputs for the query
+            for (int i = 0; i < numResults; i++) {
+                System.out.println(results.get(i) + "\n");
+                JSONObject test = (JSONObject) results.get(i);
+            }
+        }
+
+    }
+
+    /**
+     * Retrieves the number of hits to display from the user.
+     * @return The number of hits to display for a given query.
+     */
+    private static int retrieveNumHits() {
+        int result = -1;
+        System.out.print("Please input the number of hits you wish to retrieve: ");
+        try {
+            Scanner s = new Scanner(System.in);
+            result = s.nextInt();
+            if (result < 0)
+                throw new InputMismatchException();
+        }
+        catch(InputMismatchException e) {
+            System.out.println("The input was not a nonnegative integer. Please try " +
+                    "again.\n");
+            return retrieveNumHits();
+        }
+        return result;
+    }
+
+    /**
+     * Retrieves the query from the user.
+     * @return The user's query string
+     */
+    private static String retrieveQuery() {
+        System.out.print("Please input the query as one line: ");
+        Scanner s = new Scanner(System.in);
+        String result = s.nextLine();
+        System.out.println("The query string: " + result);
+        return result;
     }
 }

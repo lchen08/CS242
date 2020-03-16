@@ -156,4 +156,3 @@ public class Indexer {
      */
     public ArrayList<Long> getDocTimes() { return docTimes; }
 }
-

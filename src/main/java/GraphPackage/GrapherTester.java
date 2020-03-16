@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class GrapherTester {
     private static final String APP_TITLE = "CS242 - Lucene Runtime Graph";
-    private static final String GRAPH_TITLE = "Document Completion Times";
+    private static final String GRAPH_TITLE = "Lucene Document Completion Times";
     private static final String LUCENE_TIME_FILENAME = "lucenetimes.txt";
     private static final String[] LINE_TITLES = {"Lucene Indexer", "Hadoop Indexer"};
 
